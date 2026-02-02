@@ -63,7 +63,8 @@ async def honeypot_endpoint(
         sess = session_store.sessions[sid]
         
         # Extract Intelligence from current message and history (source = scammer)
-        full_conversation = request.conversationHistory + [request.message]
+        history = request.conversationHistory or []
+        full_conversation = history + [request.message]
         for msg in full_conversation:
             if msg.sender == "scammer":
                 intel = extract_intelligence(msg.text)
@@ -95,11 +96,11 @@ async def honeypot_endpoint(
 
     # 3. REPLY GENERATION
     # If it's a scam or suspicious, generate a reply to keep them engaged
-    reply_text = None
-    if (is_confirmed_scam or is_suspicious or is_suspicious_rule) and request.message.sender == "scammer":
-        # Note: generate_reply is relatively fast but could be moved to background if needed.
-        # For now, we keep it here to provide a reply in the same response.
-        reply_text = agent.generate_reply(request.message.text, request.conversationHistory)
+        reply_text = agent.generate_reply(request.message.text, request.conversationHistory or [])
+    
+    # Ensure reply is never null for GUVI compliance
+    if reply_text is None:
+        reply_text = "I'm not sure what you mean. Could you clarify?"
 
     # Final Agent Notes for Response
     final_agent_notes = session.get("agent_notes", "Analyzing...")
@@ -115,7 +116,7 @@ async def honeypot_endpoint(
         scamDetected=is_confirmed_scam,
         engagementMetrics=EngagementMetrics(
             engagementDurationSeconds=duration,
-        totalMessagesExchanged=len(request.conversationHistory) + 1
+            totalMessagesExchanged=len(request.conversationHistory or []) + 1
         ),
         extractedIntelligence=session["intelligence"],
         agentNotes=final_agent_notes,
