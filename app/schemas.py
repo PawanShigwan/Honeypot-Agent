@@ -3,9 +3,9 @@ from typing import List, Optional
 from datetime import datetime
 
 class Message(BaseModel):
-    sender: str  # "scammer" or "user"
+    sender: str
     text: str
-    timestamp: datetime
+    timestamp: Optional[str] = None
 
 class Metadata(BaseModel):
     channel: Optional[str] = None
@@ -15,8 +15,11 @@ class Metadata(BaseModel):
 class HoneyPotRequest(BaseModel):
     sessionId: str
     message: Message
-    conversationHistory: List[Message] = []
+    conversationHistory: Optional[List[Message]] = []
     metadata: Optional[Metadata] = None
+
+    class Config:
+        extra = "allow"
 
 class EngagementMetrics(BaseModel):
     engagementDurationSeconds: int = 0
