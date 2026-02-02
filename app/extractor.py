@@ -4,7 +4,7 @@ from .schemas import ExtractedIntelligence
 # Regex Patterns
 UPI_PATTERN = r"\b[\w.-]+@[\w.-]+\b"
 BANK_AC_PATTERN = r"\b\d{12,18}\b"
-PHONE_PATTERN = r"(?:\+91[\-\s]?)?[6-9]\d{9,10}"
+PHONE_PATTERN = r"(?<!\d)(?:\+91[\-\s]?)?[6-9]\d{9}(?!\d)"
 URL_PATTERN = r"https?://[^\s]+"
 SUSPICIOUS_KEYWORDS_LIST = ["urgent", "verify", "blocked", "pay", "upi", "click", "suspend", "kyc", "lottery"]
 
