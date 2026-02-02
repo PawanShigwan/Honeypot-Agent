@@ -87,7 +87,7 @@ async def honeypot_endpoint(
             sess["intelligence"].phoneNumbers
         ])
         
-        should_send = sess["scam_detected"] and (has_intel or sess["total_messages"] >= 3)
+        should_send = sess["scam_detected"]
         if should_send and not sess.get("callback_sent", False):
             sess["callback_sent"] = True
             send_guvi_callback(sid, sess)
