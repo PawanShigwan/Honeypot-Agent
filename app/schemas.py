@@ -5,7 +5,7 @@ from datetime import datetime
 class Message(BaseModel):
     sender: str
     text: str
-    timestamp: Optional[str] = None
+    timestamp: int  # MUST be epoch milliseconds
 
 class Metadata(BaseModel):
     channel: Optional[str] = None
@@ -15,8 +15,8 @@ class Metadata(BaseModel):
 class HoneyPotRequest(BaseModel):
     sessionId: str
     message: Message
-    conversationHistory: Optional[List[Message]] = []
-    metadata: Optional[Metadata] = None
+    conversationHistory: List[Message]
+    metadata: Optional[Metadata]
 
     class Config:
         extra = "allow"
