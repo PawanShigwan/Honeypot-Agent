@@ -96,6 +96,8 @@ async def honeypot_endpoint(
 
     # 3. REPLY GENERATION
     # If it's a scam or suspicious, generate a reply to keep them engaged
+    reply_text = None
+    if (is_confirmed_scam or is_suspicious or is_suspicious_rule) and request.message.sender == "scammer":
         reply_text = agent.generate_reply(request.message.text, request.conversationHistory or [])
     
     # Ensure reply is never null for GUVI compliance
