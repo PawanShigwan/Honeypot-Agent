@@ -11,7 +11,7 @@ if settings.GEMINI_API_KEY:
 
 class GeminiAgent:
     def __init__(self):
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
         
     def detect_scam_ai(self, message: str) -> bool:
         """
