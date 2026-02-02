@@ -2,9 +2,9 @@ import re
 from .schemas import ExtractedIntelligence
 
 # Regex Patterns
-UPI_PATTERN = r"[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}"
-BANK_AC_PATTERN = r"\b\d{9,18}\b"
-PHONE_PATTERN = r"(?:\+91[\-\s]?)?[6-9]\d{9}"
+UPI_PATTERN = r"\b[\w.-]+@[\w.-]+\b"
+BANK_AC_PATTERN = r"\b\d{12,18}\b"
+PHONE_PATTERN = r"(?:\+91[\-\s]?)?[6-9]\d{9,10}"
 URL_PATTERN = r"https?://[^\s]+"
 SUSPICIOUS_KEYWORDS_LIST = ["urgent", "verify", "blocked", "pay", "upi", "click", "suspend", "kyc", "lottery"]
 
