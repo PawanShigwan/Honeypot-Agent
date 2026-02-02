@@ -62,13 +62,17 @@ async def honeypot_endpoint(
     def background_processing(sid: str, msg_text: str, sender: str):
         sess = session_store.sessions[sid]
         
-        # Extract Intelligence (if from scammer)
-        if sender == "scammer":
-            intel = extract_intelligence(msg_text)
-            session_store.update_intelligence(sid, intel)
+        # Extract Intelligence from current message and history (source = scammer)
+        full_conversation = request.conversationHistory + [request.message]
+        for msg in full_conversation:
+            if msg.sender == "scammer":
+                intel = extract_intelligence(msg.text)
+                session_store.update_intelligence(sid, intel)
             
-            # Re-check scam state if not confirmed
-            if not sess["scam_detected"]:
+        # Re-check scam state if not confirmed
+        if not sess["scam_detected"]:
+            # Check current message for AI detection
+            if sender == "scammer":
                 is_ai_scam = agent.detect_scam_ai(msg_text)
                 if is_ai_scam:
                     sess["scam_detected"] = True
@@ -111,7 +115,7 @@ async def honeypot_endpoint(
         scamDetected=is_confirmed_scam,
         engagementMetrics=EngagementMetrics(
             engagementDurationSeconds=duration,
-            totalMessagesExchanged=session["total_messages"]
+        totalMessagesExchanged=len(request.conversationHistory) + 1
         ),
         extractedIntelligence=session["intelligence"],
         agentNotes=final_agent_notes,
