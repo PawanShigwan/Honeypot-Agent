@@ -17,6 +17,7 @@ def send_guvi_callback(session_id: str, session_data: dict):
             "upiIds": intel.upiIds,
             "phishingLinks": intel.phishingLinks,
             "phoneNumbers": intel.phoneNumbers,
+            "cryptoWallets": getattr(intel, "cryptoWallets", []),
             "suspiciousKeywords": intel.suspiciousKeywords
         }
 
