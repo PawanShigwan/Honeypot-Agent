@@ -115,6 +115,7 @@ async def honeypot_endpoint(
     duration = int((datetime.now(timezone.utc) - session["created_at"]).total_seconds())
     
     return HoneyPotResponse(
+        sessionId=request.sessionId,
         scamDetected=is_confirmed_scam,
         engagementMetrics=EngagementMetrics(
             engagementDurationSeconds=duration,
