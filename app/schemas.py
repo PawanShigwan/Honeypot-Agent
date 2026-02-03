@@ -1,11 +1,11 @@
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Union
 from datetime import datetime
 
 class Message(BaseModel):
     sender: str
     text: str
-    timestamp: int  # MUST be epoch milliseconds
+    timestamp: Union[int, datetime]  # Can be epoch milliseconds or ISO string
 
 class Metadata(BaseModel):
     channel: Optional[str] = None
@@ -16,7 +16,7 @@ class HoneyPotRequest(BaseModel):
     sessionId: str
     message: Message
     conversationHistory: List[Message]
-    metadata: Optional[Metadata]
+    metadata: Optional[Metadata] = None
 
     class Config:
         extra = "allow"
