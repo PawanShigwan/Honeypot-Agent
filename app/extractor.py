@@ -39,11 +39,6 @@ def extract_intelligence(text: str) -> ExtractedIntelligence:
     if crypto_matches:
         intel.cryptoWallets = list(set(crypto_matches))
         
-    # Extract Emails
-    email_matches = re.findall(EMAIL_PATTERN, text)
-    if email_matches:
-        intel.emailAddresses = list(set(email_matches))
-        
     # Extract Keywords
     text_lower = text.lower()
     found_keywords = [kw for kw in SUSPICIOUS_KEYWORDS_LIST if kw in text_lower]
