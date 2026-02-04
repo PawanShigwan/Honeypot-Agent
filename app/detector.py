@@ -22,7 +22,12 @@ HIGH_CONFIDENCE_SCAM_KEYWORDS = [
     r"suspicious.*activity",
     r"tax.*department",
     r"unpaid.*taxes",
-    r"legal.*action"
+    r"legal.*action",
+    r"package.*waiting",
+    r"claim.*prize",
+    r"claim.*it",
+    r"pay.*penalty",
+    r"refund.*process"
 ]
 
 SUSPICIOUS_BEHAVIOR_KEYWORDS = [
@@ -33,7 +38,8 @@ SUSPICIOUS_BEHAVIOR_KEYWORDS = [
     r"official.*notice",
     r"security.*alert",
     r"action.*needed",
-    r"customer.*care"
+    r"customer.*care",
+    r"calling.*from.*the"
 ]
 
 def detect_scam_rule_based(text: str) -> bool:
