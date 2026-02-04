@@ -22,7 +22,12 @@ async def honeypot_endpoint(
     # Update local session state
     session_store.add_message(request.sessionId, request.message)
     
-    # 1. FAST DETECTION (Rules)
+    # 1. INTELLIGENCE EXTRACTION (Sync)
+    # Extract from current message
+    new_intel = extract_intelligence(request.message.text)
+    session_store.update_intelligence(request.sessionId, new_intel)
+    
+    # 2. FAST DETECTION (Rules)
     is_confirmed_scam = session["scam_detected"]
     is_suspicious = False
     agent_notes = session.get("agent_notes", "")
@@ -36,7 +41,8 @@ async def honeypot_endpoint(
         session["intelligence"].bankAccounts,
         session["intelligence"].upiIds,
         session["intelligence"].phishingLinks,
-        session["intelligence"].phoneNumbers
+        session["intelligence"].phoneNumbers,
+        session["intelligence"].cryptoWallets
     ])
 
     if not is_confirmed_scam:
@@ -115,7 +121,6 @@ async def honeypot_endpoint(
     duration = int((datetime.now(timezone.utc) - session["created_at"]).total_seconds())
     
     return HoneyPotResponse(
-        sessionId=request.sessionId,
         scamDetected=is_confirmed_scam,
         engagementMetrics=EngagementMetrics(
             engagementDurationSeconds=duration,
