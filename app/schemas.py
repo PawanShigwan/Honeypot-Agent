@@ -31,13 +31,9 @@ class ExtractedIntelligence(BaseModel):
     phishingLinks: List[str] = []
     phoneNumbers: List[str] = []
     cryptoWallets: List[str] = []
-    emailAddresses: List[str] = []
-    socialMediaHandles: List[str] = []
     suspiciousKeywords: List[str] = []
 
 class HoneyPotResponse(BaseModel):
-    sessionId: str
-    status: str = "success"
     scamDetected: bool
     engagementMetrics: EngagementMetrics
     extractedIntelligence: ExtractedIntelligence
