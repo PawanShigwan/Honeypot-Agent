@@ -14,9 +14,11 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    import sys
+    print(f"VALIDATION ERROR: {exc.errors()}", file=sys.stderr)
     return JSONResponse(
         status_code=422,
-        content={"status": "error", "message": "Invalid Request", "details": str(exc)},
+        content={"status": "error", "message": "Invalid Request", "details": exc.errors()},
     )
 
 app.include_router(router, prefix="/api")
