@@ -3,20 +3,20 @@ from typing import List, Optional, Union
 from datetime import datetime
 
 class Message(BaseModel):
-    sender: str
+    sender: str  # Must be "scammer" or "user"
     text: str
-    timestamp: Union[int, datetime]  # Can be epoch milliseconds or ISO string
+    timestamp: int  # Epoch milliseconds
 
 class Metadata(BaseModel):
-    channel: Optional[str] = None
-    language: Optional[str] = None
-    locale: Optional[str] = None
+    channel: str = "SMS"
+    language: str = "English"
+    locale: str = "IN"
 
 class HoneyPotRequest(BaseModel):
     sessionId: str
     message: Message
     conversationHistory: List[Message]
-    metadata: Optional[Metadata] = None
+    metadata: Metadata  # Now mandatory
 
     class Config:
         extra = "allow"
