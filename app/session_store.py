@@ -39,8 +39,6 @@ class SessionManager:
             current.phishingLinks = list(set(current.phishingLinks + new_intel.phishingLinks))
             current.phoneNumbers = list(set(current.phoneNumbers + new_intel.phoneNumbers))
             current.cryptoWallets = list(set(current.cryptoWallets + new_intel.cryptoWallets))
-            current.emailAddresses = list(set(current.emailAddresses + new_intel.emailAddresses))
-            current.socialMediaHandles = list(set(current.socialMediaHandles + new_intel.socialMediaHandles))
             current.suspiciousKeywords = list(set(current.suspiciousKeywords + new_intel.suspiciousKeywords))
 
 session_store = SessionManager()
