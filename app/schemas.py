@@ -15,8 +15,8 @@ class Metadata(BaseModel):
 class HoneyPotRequest(BaseModel):
     sessionId: str
     message: Message
-    conversationHistory: List[Message]
-    metadata: Metadata  # Now mandatory
+    conversationHistory: List[Message] = []
+    metadata: Metadata = Field(default_factory=Metadata)
 
     class Config:
         extra = "allow"
@@ -31,6 +31,9 @@ class ExtractedIntelligence(BaseModel):
     phishingLinks: List[str] = []
     phoneNumbers: List[str] = []
     cryptoWallets: List[str] = []
+    emailAddresses: List[str] = []
+    socialMediaHandles: List[str] = []
+    sessionId: str = ""
     suspiciousKeywords: List[str] = []
 
 class HoneyPotResponse(BaseModel):
